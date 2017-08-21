@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Not a Hangman game!</title>
+  </head>
+  <body>
+    <h1>Welcome to Mystery word game!*</h1>
+    <h6>Legally distinct from Hangman™</h6>
+<section class="gameArea">
+  <!-- <hang man ascii art?> -->
+  <p>guesses left {{guessesLeft}}</p>
+  <h1>{{#blankedWord}}
+    <span>{{.}}</span>
+  {{/blankedWord}}</h1>
+  <form class="guessLetter" action="/guess" method="post">
+    <input type="text" name="guess" placeholder="Letter goes here">
+    <input type="submit" name="submit button" value="Guess!">
+  </form>
+
+  <h3>Letters you have guessed!-{{#guessedLetters}}<span> {{.}} </span>{{/guessedLetters}}</h3>
+  <form class="resetGame" action="/resetGame" method="post">
+    <input type="submit" name="reset Button" value="Get a new word!">
+  </form>
+</section>
+
+  </body>
+</html>
