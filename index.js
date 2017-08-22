@@ -51,38 +51,54 @@ server.use(session({
 // Everything above is fine (I hope);
 //
 
+// TODO code clean up first!
+
 // TODO this function is to big find a way to split it up.
 // TODO also need to check if they picked a letter
 // TODO can I get auto focus back on the input box after
+
+
 server.post('/guess', function(req, res) {
-  if (req.body.guess.length !== 1) {
-    res.send("stop breaking my code damnit");
-  } else {
-    for (let i = 0; i < req.session.guessed.length; i++) {
-      if (req.session.guessed[i] === req.body.guess) {
-        res.send("You guessed that already");
-        return
-      }
-    }
-    if (isLetterWrong(req.session.letters, req.body.guess)) {
-      req.session.wrongGuess++;
-    };
-    req.session.blanks = replaceBlanksWithLetters(req.body.guess, req.session.letters, req.session.blanks);
-    req.session.guessed.push(req.body.guess);
-    if (anyBlanksLeft(req.session.blanks)) {
-      res.render('winners');
-      return;
-    }
-    if (req.session.wrongGuess > 7) {
-      res.render('gameover');
-      return;
-    }
+  single = singleLetter(req.body.guess);
+  lowercase = letterAlphaber(req.body.guess);
+  if (single === false || lowercase === false) {
     res.render('game', {
+      message: "Please only use only a single lowercase letter.",
       blankedWord: req.session.blanks,
       guessesLeft: 8-req.session.wrongGuess,
       guessedLetters: req.session.guessed
     });
+    return ;
   }
+  for (let i = 0; i < req.session.guessed.length; i++) {
+    if (req.session.guessed[i] === req.body.guess) {
+      res.render('game', {
+        message: "You guessed that already!",
+        blankedWord: req.session.blanks,
+        guessesLeft: 8-req.session.wrongGuess,
+        guessedLetters: req.session.guessed
+      });
+      return ;
+    }
+  }
+  if (isLetterWrong(req.session.letters, req.body.guess)) {
+    req.session.wrongGuess++;
+  };
+  req.session.blanks = replaceBlanksWithLetters(req.body.guess, req.session.letters, req.session.blanks);
+  req.session.guessed.push(req.body.guess);
+  if (anyBlanksLeft(req.session.blanks)) {
+    res.render('winners');
+    return;
+  }
+  if (req.session.wrongGuess > 7) {
+    res.render('gameover');
+    return;
+  }
+  res.render('game', {
+    blankedWord: req.session.blanks,
+    guessesLeft: 8-req.session.wrongGuess,
+    guessedLetters: req.session.guessed
+  });
 });
 
 //
@@ -103,7 +119,6 @@ server.post('/gamemode',function(req, res){
     res.redirect('/');
 });
 
-
 server.get('/', function(req, res) {
   req.session.letters = setTheMode(req.session.gameMode);
   req.session.wrongGuess = 0;
@@ -116,7 +131,23 @@ server.get('/', function(req, res) {
   });
 });
 
+function singleLetter(letter){
+  if (letter.length !== 1) {
+  return false
+  };
+  return true;
+};
 
+function letterAlphaber(letter){
+  let alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+  let isValidLetter = false;
+  for (var i = 0; i < alphabet.length; i++) {
+    if (alphabet[i] === letter){
+      isValidLetter = true;
+    }
+  };
+  return(isValidLetter);
+};
 
 server.post('/resetGame', function(req, res){
   res.redirect('/');
