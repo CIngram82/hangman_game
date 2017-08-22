@@ -18,7 +18,25 @@ server.use(bodyParser.urlencoded({
 }));
 
 const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
+let ezMode =[];
+let normalMode = [];
+let hardmode = [];
+let kiddingMeMode = [];
 
+for (var i = 0; i < words.length; i++) {
+  if (words[i].length > 11) {
+    kiddingMeMode.push(words[i]);
+  }
+  if (words[i].length > 7 && words[i].length < 12) {
+    hardmode.push(words[i]);
+  }
+ if (words[i].length > 5 && words[i].length < 9) {
+    normalMode.push(words[i]);
+  }
+ if (words[i].length > 3 && words[i].length < 7) {
+    ezMode.push(words[i]);
+  }
+};
 
 server.listen(3000, function() {
   console.log("Login server is working please don't break it.");
@@ -33,6 +51,9 @@ server.use(session({
 // Everything above is fine (I hope);
 //
 
+// TODO this function is to big find a way to split it up.
+// TODO also need to check if they picked a letter
+// TODO can I get auto focus back on the input box after
 server.post('/guess', function(req, res) {
   if (req.body.guess.length !== 1) {
     res.send("stop breaking my code damnit");
@@ -77,8 +98,14 @@ function isLetterWrong(word, letter){
   return guessedWrong;
 };
 
+server.post('/gamemode',function(req, res){
+  req.session.gameMode = req.body.gameButton
+    res.redirect('/');
+});
+
+
 server.get('/', function(req, res) {
-  req.session.letters = pickARandomWord();
+  req.session.letters = setTheMode(req.session.gameMode);
   req.session.wrongGuess = 0;
   req.session.guessed = [];
   req.session.blanks = buildTheBlanks(req.session.letters);
@@ -88,6 +115,8 @@ server.get('/', function(req, res) {
     guessedLetters: req.session.guessed
   });
 });
+
+
 
 server.post('/resetGame', function(req, res){
   res.redirect('/');
@@ -112,8 +141,21 @@ function anyBlanksLeft(blanky) {
   return stillBlanks;
 };
 
-function pickARandomWord() {
-  let randomWord = words[Math.floor(Math.random() * words.length)];
+function setTheMode(modeValue){
+  let randomWord =""
+  if (modeValue === "ezModeGame") {
+   randomWord = ezMode[Math.floor(Math.random() * ezMode.length)];
+ }else if (modeValue === "hardModeGame") {
+     randomWord = hardmode[Math.floor(Math.random() * hardmode.length)];
+  } else if (modeValue === "kiddingMeModeGame") {
+     randomWord = kiddingMeMode[Math.floor(Math.random() * kiddingMeMode.length)];
+  }else {
+     randomWord = normalMode[Math.floor(Math.random() * normalMode.length)];
+  }
+  return splitingTheWord(randomWord);
+}
+
+function splitingTheWord(randomWord) {
   let arrayOfLettersInWord = randomWord.split("");
   console.log(randomWord);
   return arrayOfLettersInWord;

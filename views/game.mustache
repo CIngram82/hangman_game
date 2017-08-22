@@ -8,7 +8,12 @@
     <h1>Welcome to Mystery word game!*</h1>
     <h6>Legally distinct from Hangman™</h6>
 <section class="gameArea">
-  <!-- <hang man ascii art?> -->
+  <form class="" action="/gamemode" method="post">
+    <input type="submit" name="gameButton" value="ezModeGame">
+    <input type="submit" name="gameButton" value="normalModeGame">
+    <input type="submit" name="gameButton" value="hardModeGame">
+    <input type="submit" name="gameButton" value="kiddingMeModeGame">
+  </form>
   <p>guesses left {{guessesLeft}}</p>
   <h1>{{#blankedWord}}
     <span>{{.}}</span>
@@ -26,3 +31,9 @@
 
   </body>
 </html>
+
+<!--
+
+If a user wins, ask for their name and create a page that shows all the winners so far.
+
+If a user wins, ask for their name and optionally an image to upload. Show their image on the winners page. -->
