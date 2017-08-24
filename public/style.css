@@ -28,6 +28,15 @@ align-items: center;
 .red{
   color: red;
 }
+table{
+  border: 1px solid black;
+}
+td{
+  border: 1px solid black;
+}
+th{
+  border: 1px solid black;
+}
 /* RGB
 rgba(43, 45, 66, 1);
 rgba(141, 153, 174, 1);

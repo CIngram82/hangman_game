@@ -53,7 +53,6 @@ server.use(session({
 //
 
 // TODO add images and change as guessed wrong goes up.
-// TODO change game over. so it shows the word and fills in letters as red.
 // TODO can I get auto focus back on the input box after
 
 
@@ -107,9 +106,6 @@ server.post('/guess', function(req, res) {
 mongoose.connect('mongodb://localhost:27017/test');
 
 server.post('/winnerWall',function(req, res){
-  console.log(req.body.name);
-  console.log(req.session.blanks.join(''));
-  console.log(req.session.wrongGuess);
   let win = new WinnersList({name: req.body.name});
   win.word = req.session.blanks.join('');
   win.wrongGuesses = req.session.wrongGuess;
@@ -117,12 +113,14 @@ server.post('/winnerWall',function(req, res){
     .then(function(){
       WinnersList.find()
         .then(function(winlist){
+
           console.log(winlist);
+          res.render('winners',{
+            winlist: winlist
+          });
         })
     })
-  res.render('winners',{
-    message: "Nice try 4chan"
-  });
+
 })
 
 //

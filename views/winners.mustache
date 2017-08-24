@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>The Winner is you!</title>
+    <link rel="stylesheet" href="/style.css">
+
   </head>
   <body>
     <section>
@@ -22,5 +24,23 @@
   <span>{{.}}</span>
 {{/word}}</h2>
 <h1>{{message}}</h1>
+
+<section class='highScores'>
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Word</th>
+    <th>wrong Guesses</th>
+  </tr>
+  {{#winlist}}
+<tr>
+  <td>{{name}}</td>
+  <td>{{word}}</td>
+  <td>{{wrongGuesses}}</td>
+</tr>
+  {{/winlist}}
+
+</table>
+</section>
   </body>
 </html>
