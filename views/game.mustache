@@ -3,17 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>Not a Hangman game!</title>
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body>
     <h1>Welcome to Mystery word game!*</h1>
-    <h6>Legally distinct from Hangman™</h6>
+    <h6>*Legally distinct from Hangman™</h6>
 <section class="gameArea">
+  <h3>select your difficulty!</h3>
   <form class="" action="/gamemode" method="post">
-    <input type="submit" name="gameButton" value="ezModeGame">
-    <input type="submit" name="gameButton" value="normalModeGame">
-    <input type="submit" name="gameButton" value="hardModeGame">
-    <input type="submit" name="gameButton" value="kiddingMeModeGame">
+    <input type="submit" name="gameButton" value="Easy">
+    <input type="submit" name="gameButton" value="Normal">
+    <input type="submit" name="gameButton" value="Hard">
+    <input type="submit" name="gameButton" value="How is that a word?">
   </form>
+  <img src="/dead.jpg" alt="">
   <p>guesses left {{guessesLeft}}</p>
   <h1>{{#blankedWord}}
     <span>{{.}}</span>

@@ -3,10 +3,16 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body>
     <h1>Gameover Man!</h1>
     <iframe width="560" height="315" src="https://www.youtube.com/embed/u2ycDWywGls?autoplay=1" frameborder="0" allowfullscreen></iframe>
+    <h2>Your word was-
+      {{#word}}
+      {{#guessed}}<span>{{letter}}</span>{{/guessed}}
+      {{^guessed}}<span class="red">{{letter}}</span>{{/guessed}}
+    {{/word}}</h2>
     <form class="resetGame" action="/resetGame" method="post">
       <input type="submit" name="reset Button" value="Get a new word!">
     </form>

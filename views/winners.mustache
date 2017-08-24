@@ -7,14 +7,20 @@
   <body>
     <section>
       <h1>A Winner is you!</h1>
-      <!-- <winner name> -->
-      <!-- <winning word?> -->
-      <!-- <winner image?> -->
-
     </section>
     <iframe width="560" height="315" src="https://www.youtube.com/embed/tNJM4Plnj6w?autoplay=1" frameborder="0" allowfullscreen></iframe>
     <form class="resetGame" action="/resetGame" method="post">
       <input type="submit" name="reset Button" value="Get a new word!">
     </form>
+    <h3>Add your name to the wall of winners!</h3>
+<form class="Winners" action="/winnerWall" method="post">
+<input type="text" name="name" value="" placeholder="Name">
+<input type="submit" name="submit" value="submit">
+</form>
+<h2>Your word was-
+  {{#word}}
+  <span>{{.}}</span>
+{{/word}}</h2>
+<h1>{{message}}</h1>
   </body>
 </html>
